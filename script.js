@@ -104,14 +104,14 @@ topicsArray.map((ele) => {
     category_item.innerText = ele;
     category_item.addEventListener('click', (() => {
         currentCategory = ele;
-        showQuote(fetchData(ele))
+        showQuote(fetchData(ele), `Loading...<br/><img class="load" src ="./Assets/load.gif" />`)
     }));
     categoryEle.append(category_item);
 })
 
-const showQuote = async (data) => {
+const showQuote = async (data, message) => {
     const quote = document.querySelector("#quote>h3");
-    quote.innerText = "Loading...!!! 🔃"
+    quote.innerHTML = message;
     data = await data;
     quote.innerText = data[0].quote;
 }
@@ -119,9 +119,9 @@ const showQuote = async (data) => {
 const newQuoteBtn = document.querySelector(".newQuoteBtn");
 newQuoteBtn.addEventListener("click", (() => {
     if (currentCategory === "none") {
-        const idx = getRandomNumber(topicsArray.length);
-        showQuote(fetchData(topicsArray[idx]));
+        const idx = getRandomNumber(topicsArray.length - 1);
+        showQuote(fetchData(topicsArray[idx]), `Randomly Selecting The Quote !!!🧐<br/><img class="load" src ="./Assets/load.gif" />`);
     } else {
-        showQuote(fetchData(currentCategory));
+        showQuote(fetchData(currentCategory), `Loading...<br/><img class="load" src ="./Assets/load.gif" />`);
     }
 }))
